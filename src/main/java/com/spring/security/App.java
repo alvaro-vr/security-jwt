@@ -3,6 +3,7 @@ package com.spring.security;
 import com.spring.security.enums.Role;
 import com.spring.security.persistence.entities.UserEntity;
 import com.spring.security.persistence.repositories.UserRepository;
+import com.spring.security.security.service.JwtService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +21,7 @@ public class App {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(UserRepository repository, PasswordEncoder encoder){
+	public CommandLineRunner commandLineRunner(UserRepository repository, PasswordEncoder encoder, JwtService jwtService){
 		return args -> {
 			List<UserEntity> users = List.of(
 					UserEntity.builder()
@@ -35,7 +36,8 @@ public class App {
 							.build()
 			);
 			repository.saveAll(users);
-			System.out.println(repository.findByUsername("alvaro").get().toString());
+
+			System.out.println(jwtService.createToken("alvaro1", Set.of(Role.ROLE_USER, Role.ROLE_ADMIN)));
 		};
 	}
 

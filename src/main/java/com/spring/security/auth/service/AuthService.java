@@ -32,6 +32,8 @@ public class AuthService {
             throw new UserAlreadyExistsException("Username '"+ request.getUsername() +"' already exists");
         }
 
+
+
         return new AuthResponse(user.getUsername(), "User "+ user.getUsername()+" registered");
     }
 
